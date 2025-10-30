@@ -1,7 +1,7 @@
 import pickle
 import numpy as np
 import pandas as pd
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 import warnings
 
@@ -21,12 +21,28 @@ feature_columns = pickle.load(open("feature_columns.pkl", "rb"))
 
 @app.route("/")
 def home():
-    return render_template(
-        "index.html",
-        skill_options=sorted(skill_enc.classes_),
-        interest_options=sorted(int_enc.classes_),
-        edu_options=list(edu_enc.classes_)
-    )
+    return {
+        "message": "AI Career Recommendation System API",
+        "endpoints": {
+            "POST /predict": "Get career recommendation",
+            "GET /options": "Get available options for form fields"
+        },
+        "example_request": {
+            "name": "John Doe",
+            "age": 25,
+            "education": "Bachelor's",
+            "skills": ["Python", "Machine Learning"],
+            "interests": ["Technology", "Problem Solving"]
+        }
+    }
+
+@app.route("/options")
+def get_options():
+    return {
+        "skills": sorted(skill_enc.classes_.tolist()),
+        "interests": sorted(int_enc.classes_.tolist()),
+        "education": edu_enc.classes_.tolist()
+    }
 
 @app.route("/predict", methods=["POST"])
 def predict():
