@@ -8,6 +8,8 @@ import warnings
 # Suppress sklearn warnings
 warnings.filterwarnings("ignore", category=UserWarning)
 
+# API-only Flask application for career recommendations
+
 app = Flask(__name__)
 CORS(app)  # Enable CORS for React frontend
 
