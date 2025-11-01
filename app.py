@@ -1,3 +1,4 @@
+import os
 import pickle
 import numpy as np
 import pandas as pd
@@ -56,13 +57,18 @@ def health():
         model_status = "loaded" if model is not None else "not loaded"
         edu_status = "loaded" if edu_enc is not None else "not loaded"
         skill_status = "loaded" if skill_enc is not None else "not loaded"
+        int_status = "loaded" if int_enc is not None else "not loaded"
+        career_status = "loaded" if career_enc is not None else "not loaded"
         
         return {
             "status": "healthy",
+            "port": os.environ.get("PORT", "5000"),
             "models": {
                 "main_model": model_status,
                 "education_encoder": edu_status,
-                "skills_encoder": skill_status
+                "skills_encoder": skill_status,
+                "interests_encoder": int_status,
+                "career_encoder": career_status
             }
         }
     except Exception as e:
@@ -159,4 +165,6 @@ def predict():
         }), 500
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    import os
+    port = int(os.environ.get("PORT", 5000))
+    app.run(debug=False, host="0.0.0.0", port=port)
