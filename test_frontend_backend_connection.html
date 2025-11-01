@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Frontend-Backend Connection</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .test-result { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .loading { background-color: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        button { background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 5px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Frontend-Backend Connection Test</h1>
+    <p>This tests the connection between your Next.js frontend and Flask backend.</p>
+    
+    <button onclick="testConnection()">Test Connection</button>
+    
+    <div id="results"></div>
+
+    <script>
+        const API_URL = 'https://ai-career-recommendation-system.onrender.com';
+        
+        async function testConnection() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<div class="loading">🔄 Testing connection...</div>';
+            
+            const tests = [
+                { name: 'Health Check', url: `${API_URL}/health`, method: 'GET' },
+                { name: 'Options Endpoint', url: `${API_URL}/options`, method: 'GET' },
+                { 
+                    name: 'Prediction Endpoint', 
+                    url: `${API_URL}/predict`, 
+                    method: 'POST',
+                    body: {
+                        name: "Test User",
+                        age: 25,
+                        education: "Bachelor's",
+                        skills: ["Python", "Machine Learning"],
+                        interests: ["Technology", "Problem Solving"]
+                    }
+                }
+            ];
+            
+            let results = '';
+            
+            for (const test of tests) {
+                try {
+                    const options = {
+                        method: test.method,
+                        headers: { 'Content-Type': 'application/json' }
+                    };
+                    
+                    if (test.body) {
+                        options.body = JSON.stringify(test.body);
+                    }
+                    
+                    const response = await fetch(test.url, options);
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        results += `
+                            <div class="test-result success">
+                                ✅ <strong>${test.name}</strong> - Success
+                                <pre>${JSON.stringify(data, null, 2)}</pre>
+                            </div>
+                        `;
+                    } else {
+                        results += `
+                            <div class="test-result error">
+                                ❌ <strong>${test.name}</strong> - Failed (${response.status})
+                                <pre>${JSON.stringify(data, null, 2)}</pre>
+                            </div>
+                        `;
+                    }
+                } catch (error) {
+                    results += `
+                        <div class="test-result error">
+                            ❌ <strong>${test.name}</strong> - Error
+                            <pre>${error.message}</pre>
+                        </div>
+                    `;
+                }
+            }
+            
+            results += `
+                <div class="test-result success">
+                    🎉 <strong>Connection Test Complete!</strong><br>
+                    If all tests passed, your frontend can successfully connect to the backend.
+                </div>
+            `;
+            
+            resultsDiv.innerHTML = results;
+        }
+    </script>
+</body>
+</html>

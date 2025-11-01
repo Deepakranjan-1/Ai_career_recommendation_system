@@ -4,6 +4,20 @@ import { Target, TrendingUp, Award, Users, Lightbulb, Star, Trophy, Heart, Brain
 import PersonalizedInterestChart from './PersonalizedInterestChart';
 import JobsSection from './JobsSection';
 
+interface SkillData {
+  skill: string;
+  score: number;
+  fill: string;
+  id: string;
+}
+
+interface CareerData {
+  career: string;
+  match: number;
+  fill: string;
+  id: string;
+}
+
 interface ResultsDisplayProps {
   result: any;
   loading: boolean;
@@ -36,8 +50,11 @@ export default function ResultsDisplay({ result, loading }: ResultsDisplayProps)
     );
   }
 
+  // Ultra vibrant color palette for maximum visibility
+  const SKILL_COLORS = ['#9333EA', '#3B82F6', '#06B6D4', '#10B981', '#F59E0B']; // Purple, Blue, Cyan, Green, Amber
+
   // Generate dynamic skill data based on user's actual selections
-  const generateSkillData = () => {
+  const generateSkillData = (): SkillData[] => {
     const userSkills = result.formData.skills.slice(0, 5); // Show up to 5 skills
     // Generate realistic scores between 70-95 for selected skills
     const baseScores = [92, 85, 78, 73, 68];
@@ -49,7 +66,7 @@ export default function ResultsDisplay({ result, loading }: ResultsDisplayProps)
     }));
   };
 
-  const generateCareerMatches = () => {
+  const generateCareerMatches = (): CareerData[] => {
     const predefinedCareers = [
       'Data Scientist',
       'UX Designer', 
@@ -67,7 +84,7 @@ export default function ResultsDisplay({ result, loading }: ResultsDisplayProps)
     });
     
     const matches = [91, 78, 65, 58, 52]; // Predefined match percentages
-    return uniqueCareers.map((career, index) => ({
+    return uniqueCareers.map((career: string, index: number) => ({
       career,
       match: matches[index] || 50,
       fill: CAREER_COLORS[index] || '#6B7280',
@@ -84,8 +101,6 @@ export default function ResultsDisplay({ result, loading }: ResultsDisplayProps)
     }));
   };
 
-  // Ultra vibrant color palette for maximum visibility
-  const SKILL_COLORS = ['#9333EA', '#3B82F6', '#06B6D4', '#10B981', '#F59E0B']; // Purple, Blue, Cyan, Green, Amber
   const CAREER_COLORS = ['#059669', '#3B82F6', '#F59E0B', '#EF4444', '#8B5CF6']; // Emerald, Blue, Amber, Red, Purple
   const INTEREST_COLORS = ['#EC4899', '#3B82F6']; // Pink and blue for interests
 
@@ -155,7 +170,7 @@ export default function ResultsDisplay({ result, loading }: ResultsDisplayProps)
 
               {/* Grid Lines */}
               <div className="absolute left-8 top-0 right-0 h-full">
-                {[0, 20, 40, 60, 80, 100].map((value, index) => (
+                {[0, 20, 40, 60, 80, 100].map((value: number, index: number) => (
                   <div 
                     key={value}
                     className="absolute w-full border-t border-gray-300"
@@ -166,7 +181,7 @@ export default function ResultsDisplay({ result, loading }: ResultsDisplayProps)
 
               {/* Bars Container - Dynamic Skills */}
               <div className="absolute left-8 bottom-0 right-0 h-full flex items-end justify-around px-4">
-                {skillData.map((skill, index) => (
+                {skillData.map((skill: SkillData, index: number) => (
                   <div key={skill.id} className="flex flex-col items-center group cursor-pointer">
                     <div className="relative">
                       <div 
@@ -237,7 +252,7 @@ export default function ResultsDisplay({ result, loading }: ResultsDisplayProps)
 
             {/* Grid Lines */}
             <div className="absolute left-8 top-0 right-0 h-full">
-              {[0, 20, 40, 60, 80, 100].map((value, index) => (
+              {[0, 20, 40, 60, 80, 100].map((value: number, index: number) => (
                 <div 
                   key={value}
                   className="absolute w-full border-t border-gray-300"
