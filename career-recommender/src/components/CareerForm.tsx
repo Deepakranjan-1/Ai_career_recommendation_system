@@ -4,6 +4,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { User, GraduationCap, Brain, Heart, Sparkles } from 'lucide-react';
 import MultiSelectDropdown from './MultiSelectDropdown';
+import { getApiUrl } from '@/config/api';
 
 interface CareerFormProps {
   onResult: (result: any) => void;
@@ -78,11 +79,11 @@ export default function CareerForm({ onResult, loading, setLoading }: CareerForm
 
     setLoading(true);
     try {
-      const response = await axios.post('http://localhost:5000/predict', formData);
+      const response = await axios.post(getApiUrl('/predict'), formData);
       onResult({ ...response.data, formData });
     } catch (error) {
       console.error('Error:', error);
-      alert('Error getting recommendation. Make sure the Flask server is running on port 5000.');
+      alert('Error getting recommendation. Please try again.');
     } finally {
       setLoading(false);
     }

@@ -18,20 +18,26 @@ This project combines a **Machine Learning model** for career prediction with an
 
 ## 🚀 Live Demo
 
-- 🌐 **Frontend (Streamlit):** [Open Streamlit App](https://ai-based-career-recommendation-system.streamlit.app/)  
-- ⚙️ **Backend API (Flask on Render):** [Open Flask API](https://ai-based-career-recommendation-system.onrender.com)  
+- ⚙️ **Backend API (Flask on Render):** [https://ai-career-recommendation-system.onrender.com](https://ai-career-recommendation-system.onrender.com)
+- 🌐 **Frontend (Next.js):** Deploy the `career-recommender` folder to Vercel/Netlify
+- 🌐 **Alternative Frontend (Streamlit):** [Open Streamlit App](https://ai-based-career-recommendation-system.streamlit.app/)  
 
 ---
 
 ## 🧠 Tech Stack
 
-- 🐍 **Python 3.9**  
+**Backend:**
+- 🐍 **Python 3.11** with Flask
 - 📊 **Pandas, NumPy** for data processing  
 - 🤖 **Scikit-learn** for machine learning models  
-- 🌐 **Flask** for REST API backend  
-- 🎨 **Streamlit** for frontend user interface  
 - 🚀 **Render** for backend deployment  
-- 📦 **Pickle** for model serialization  
+- 📦 **Pickle** for model serialization
+
+**Frontend Options:**
+- ⚛️ **Next.js 16 + React 19** (Modern UI)
+- 🎨 **Streamlit** (Simple interface)
+- 🎨 **Tailwind CSS** for styling
+- 📊 **Recharts** for visualizations  
 
 ---
 
